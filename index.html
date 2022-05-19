@@ -9,7 +9,8 @@
 
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/main.css">
-
+  <script src="js/config.js"></script>
+  <script src="js/message.js"></script>
 </head>
 
 <body class="page-home">
@@ -17,10 +18,10 @@
   <div id="chatbox"></div>
 
   <form name="message" action="">
-    <input name="userfrom" type="text" id="usermsg" size="63" />
-    <input name="userto" type="text" id="usermsg" size="63" />
-    <input name="usermsg" type="text" id="usermsg" size="63" />
-    <input name="submitmsg" type="submit" id="submitmsg" value="Send" />
+    <input id="userfrom" type="text" id="usermsg" size="63" />
+    <input id="userto" type="text" id="usermsg" size="63" />
+    <input id="usermsg" type="text" id="usermsg" size="63" />
+    <input name="submitmsg" type="submit" id="submitmsg" value="Send" onclick="return postMessage()" />
   </form>
 
 </body>
