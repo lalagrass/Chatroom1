@@ -1,3 +1,10 @@
+window.addEventListener('load', function () {
+    $("#submitmsg").on('submit', function(event){
+        event.preventDefault();
+        postMessage();
+     });
+});
+
 /*global WildRydes _config*/
 function postMessage() {
     console.log('postMessage');
