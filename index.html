@@ -7,8 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Chatroom1</title>
 
-  <link rel="stylesheet" href="css/font.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/sample.css">
   <script src="js/vendor/jquery-3.1.0.js"></script>
   <script src="js/vendor/bootstrap.min.js"></script>
   <script src="js/config.js"></script>
@@ -16,15 +15,45 @@
 </head>
 
 <body class="page-home">
+  <section class="msger">
+  <main class="msger-chat">
+    <div class="msg left-msg">
+      <div class="msg-bubble">
+        <div class="msg-info">
+          <div class="msg-info-name">BOT</div>
+          <div class="msg-info-time">12:45</div>
+        </div>
 
-  <div id="chatbox"></div>
+        <div class="msg-text">
+          Hi, welcome to SimpleChat! Go ahead and send me a message. 😄
+        </div>
+      </div>
+    </div>
 
-  <form name="message" action="">
-    <input name="userfrom" type="text" id="userfrom" size="20" />
-    <input name="userto" type="text" id="usermusertosg" size="20" />
-    <input name="usermsg" type="text" id="usermsg" size="63" />
-    <input name="submitmsg" type="submit" id="submitmsg" value="Send" onclick="return postMessage();" />
+    <div class="msg right-msg">
+      <div class="msg-bubble">
+        <div class="msg-info">
+          <div class="msg-info-name">Sajad</div>
+          <div class="msg-info-time">12:46</div>
+        </div>
+
+        <div class="msg-text">
+          You can change your name in JS section!
+        </div>
+      </div>
+    </div>
+  </main>
+
+  
+  <form class="msger-inputarea">
+    <input name="userfrom" type="text" id="userfrom" placeholder="send from" class="msger-input" />
+    <input name="userto" type="text" id="userto" placeholder="send to" class="msger-input" />
+    <input name="usermsg" type="text" id="usermsg" placeholder="message..." class="msger-input" />
+    <button name="submitmsg" type="submit" id="submitmsg" class="msger-send-btn" >
+      Send
+    </button>
   </form>
+</section>
 
 </body>
 
