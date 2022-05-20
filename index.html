@@ -16,7 +16,7 @@
 
 <body class="page-home">
   <section class="msger">
-  <main class="msger-chat">
+  <main class="msger-chat" id="msger-chat">
     <div class="msg left-msg">
       <div class="msg-bubble">
         <div class="msg-info">
@@ -45,13 +45,11 @@
   </main>
 
   
-  <form class="msger-inputarea">
+  <form class="msger-inputarea" action="#">
     <input name="userfrom" type="text" id="userfrom" placeholder="send from" class="msger-input" />
     <input name="userto" type="text" id="userto" placeholder="send to" class="msger-input" />
     <input name="usermsg" type="text" id="usermsg" placeholder="message..." class="msger-input" />
-    <button name="submitmsg" type="submit" id="submitmsg" class="msger-send-btn" >
-      Send
-    </button>
+    <input name="submitmsg" type="button" id="submitmsg" class="msger-send-btn" value="Send" onclick="submitMessage();" />
   </form>
 </section>
 
