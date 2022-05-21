@@ -6,11 +6,8 @@ function submitMessage() {
     console.log('try get last');
     let msgerChat = $("#msger-chat")[0];
     console.log(msgerChat);
-    let lastChild = msgerChat.lastElementChild;
-    console.log(lastChild);
-    let elemTime = lastChild.getElementsByClassName("msg-info-time")[0];
-    console.log(elemTime);
-    console.log(elemTime.textContent);
+    let lastChildTime = msgerChat.lastElementChild?.getElementsByClassName("msg-info-time")[0]?.textContent;
+    console.log(lastChildTime);
     
     
 
@@ -44,8 +41,8 @@ function postMessage(userfrom, userto, usermsg, timestamp) {
         success: completeRequest,
         error: function ajaxError(jqXHR, textStatus, errorThrown) {
             console.error('Error Post: ', textStatus, ', Details: ', errorThrown);
-            console.error('Response: ', jqXHR.responseText);
-            alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
+            console.error('Response: ', jqXHR);
+            alert('An error occured when requesting your unicorn:\n' + JSON.stringify(jqXHR));
             return false;
         }
     });

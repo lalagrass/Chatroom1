@@ -28,6 +28,9 @@ exports.handler = (event, context, callback) => {
         // the result object must use the following structure.
         callback(null, {
             statusCode: 201,
+            body: JSON.stringify({
+                result: "success"
+            }),
             headers: {
                 "Access-Control-Allow-Headers" : "Content-Type",
                 'Access-Control-Allow-Origin': '*',
