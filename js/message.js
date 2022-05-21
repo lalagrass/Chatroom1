@@ -3,6 +3,16 @@ function submitMessage() {
     let userto = document.getElementById('userto').value;
     let usermsg = document.getElementById('usermsg').value;
     let timestamp = new Date().toTimeString();
+    console.log('try get last');
+    let msgerChat = $("#msger-chat")[0];
+    console.log(msgerChat);
+    let lastChild = msgerChat.lastElementChild;
+    console.log(lastChild);
+    let elemTime = lastChild.getElementsByClassName("msg-info-time")[0];
+    console.log(elemTime);
+    console.log(elemTime.textContent);
+    
+    
 
     if (!usermsg) return;
 
@@ -33,7 +43,7 @@ function postMessage(userfrom, userto, usermsg, timestamp) {
         contentType: 'application/json',
         success: completeRequest,
         error: function ajaxError(jqXHR, textStatus, errorThrown) {
-            console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
+            console.error('Error Post: ', textStatus, ', Details: ', errorThrown);
             console.error('Response: ', jqXHR.responseText);
             alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
             return false;
@@ -44,17 +54,6 @@ function postMessage(userfrom, userto, usermsg, timestamp) {
 
 function completeRequest(result) {
     console.log('completeRequest');
-    var unicorn;
-    var pronoun;
-    console.log('Response received from API: ', result);
-    unicorn = result.Unicorn;
-    pronoun = unicorn.Gender === 'Male' ? 'his' : 'her';
-    displayUpdate(unicorn.Name + ', your ' + unicorn.Color + ' unicorn, is on ' + pronoun + ' way.');
-}
-
-function displayUpdate(text) {
-    console.log('displayUpdate');
-    $('#updates').append($('<li>' + text + '</li>'));
 }
 
 function appendMessage(name, side, text, time) {

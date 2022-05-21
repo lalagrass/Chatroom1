@@ -1,43 +1,11 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-const randomBytes = require('crypto').randomBytes;
-
 const AWS = require('aws-sdk');
 
 const ddb = new AWS.DynamoDB.DocumentClient();
 
-const fleet = [
-    {
-        Name: 'Bucephalus',
-        Color: 'Golden',
-        Gender: 'Male',
-    },
-    {
-        Name: 'Shadowfax',
-        Color: 'White',
-        Gender: 'Male',
-    },
-    {
-        Name: 'Rocinante',
-        Color: 'Yellow',
-        Gender: 'Female',
-    },
-];
-
 exports.handler = (event, context, callback) => {
-    if (!event.requestContext.authorizer) {
-      errorResponse('Authorization not configured', context.awsRequestId, callback);
-      return;
-    }
-
-    const rideId = toUrlString(randomBytes(16));
-    console.log('Received event (', rideId, '): ', event);
-
-    // Because we're using a Cognito User Pools authorizer, all of the claims
-    // included in the authentication token are provided in the request context.
-    // This includes the username as well as other attributes.
-    const username = event.requestContext.authorizer.claims['cognito:username'];
 
     // The body field of the event in a proxy integration is a raw string.
     // In order to extract meaningful values, we need to first parse this string
@@ -45,11 +13,13 @@ exports.handler = (event, context, callback) => {
     // header first and use a different parsing strategy based on that value.
     const requestBody = JSON.parse(event.body);
 
-    const pickupLocation = requestBody.PickupLocation;
+    const message = requestBody.message;
+    let userfrom = message.user_from;
+    let userto = message.user_to;
+    let usermsg = message.user_msg;
+    let timestamp = message.timestamp;
 
-    const unicorn = findUnicorn(pickupLocation);
-
-    recordRide(rideId, username, unicorn).then(() => {
+    recordMessage(userfrom, userto, usermsg, timestamp).then(() => {
         // You can use the callback function to provide a return value from your Node.js
         // Lambda functions. The first parameter is used for failed invocations. The
         // second parameter specifies the result data of the invocation.
@@ -58,15 +28,10 @@ exports.handler = (event, context, callback) => {
         // the result object must use the following structure.
         callback(null, {
             statusCode: 201,
-            body: JSON.stringify({
-                RideId: rideId,
-                Unicorn: unicorn,
-                UnicornName: unicorn.Name,
-                Eta: '30 seconds',
-                Rider: username,
-            }),
             headers: {
+                "Access-Control-Allow-Headers" : "Content-Type",
                 'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
             },
         });
     }).catch((err) => {
@@ -80,32 +45,16 @@ exports.handler = (event, context, callback) => {
     });
 };
 
-// This is where you would implement logic to find the optimal unicorn for
-// this ride (possibly invoking another Lambda function as a microservice.)
-// For simplicity, we'll just pick a unicorn at random.
-function findUnicorn(pickupLocation) {
-    console.log('Finding unicorn for ', pickupLocation.Latitude, ', ', pickupLocation.Longitude);
-    return fleet[Math.floor(Math.random() * fleet.length)];
-}
-
-function recordRide(rideId, username, unicorn) {
+function recordMessage(userfrom, userto, usermsg, timestamp) {
     return ddb.put({
-        TableName: 'Rides',
+        TableName: 'Chatroom1.Message',
         Item: {
-            RideId: rideId,
-            User: username,
-            Unicorn: unicorn,
-            UnicornName: unicorn.Name,
-            RequestTime: new Date().toISOString(),
+            user_id: userfrom,
+            user_to: userto,
+            user_message: usermsg,
+            timestamp: timestamp,
         },
     }).promise();
-}
-
-function toUrlString(buffer) {
-    return buffer.toString('base64')
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=/g, '');
 }
 
 function errorResponse(errorMessage, awsRequestId, callback) {
